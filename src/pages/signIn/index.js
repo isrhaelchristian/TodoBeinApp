@@ -63,6 +63,8 @@ export default class SignIn extends Component {
           password: this.state.password,
         });
 
+        console.log(response.data);
+
         await AsyncStorage.setItem('@TodoBeinApp:token', response.data.token);
 
         const resetAction = StackActions.reset({
