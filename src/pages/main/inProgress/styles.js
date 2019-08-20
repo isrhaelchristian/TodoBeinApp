@@ -1,16 +1,17 @@
 import {StyleSheet} from 'react-native';
 
+import {colors} from '../../../styles';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.white,
   },
   tasksContainer: {
     width: '100%',
     height: '70%',
-    backgroundColor: '#00c'
   },
   listContainer: {
     width: '100%',
@@ -32,9 +33,11 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: colors.primary
   },
   itemDescription: {
     fontSize: 14,
+    color: colors.gray
   },
   actionsContainer: {
     flexDirection: 'row',
@@ -46,21 +49,6 @@ const styles = StyleSheet.create({
     width: '50%',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  addTaskContainer: {
-    width: '100%',
-    height: '30%',
-    backgroundColor: "#ccc"
-  },
-  input: {
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    borderRadius: 5,
-    backgroundColor: '#fff',
-    alignSelf: 'stretch',
-    marginBottom: 15,
-    marginHorizontal: 20,
-    fontSize: 16,
   },
 });
 

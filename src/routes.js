@@ -18,6 +18,8 @@ import ToDo from './pages/main/toDo';
 import InProgress from './pages/main/inProgress';
 import Done from './pages/main/done';
 
+import {colors} from "./styles"
+
 const TodoRoutes = createMaterialTopTabNavigator(
   {
     ToDo,
@@ -33,15 +35,15 @@ const TodoRoutes = createMaterialTopTabNavigator(
         height: 40,
       },
       style: {
-        backgroundColor: '#f5f5f5',
+        backgroundColor: colors.background,
       },
       labelStyle: {
-        color: '#999',
+        color: colors.black,
         fontWeight: 'bold',
         fontSize: 14,
       },
       indicatorStyle: {
-        backgroundColor: '#999',
+        backgroundColor: colors.black,
       },
       upperCaseLabel: false,
     },
@@ -58,9 +60,9 @@ const Routes = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         title: 'MY TASKS',
         headerStyle: {
-          backgroundColor: '#fff',
+          backgroundColor: colors.white,
         },
-        headerTintColor: '#999',
+        headerTintColor: colors.primary,
         headerTitleStyle: {
           fontWeight: 'bold',
           fontSize: 16,

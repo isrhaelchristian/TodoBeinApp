@@ -1,22 +1,19 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {StatusBar} from 'react-native';
+import {
+  StatusBar,
+  View,
+  Image,
+  Text,
+  TouchableHighlight,
+  TextInput,
+} from 'react-native';
 
 import api from '../../services/api';
 import {StackActions, NavigationActions} from 'react-navigation';
 
-import {
-  Container,
-  Logo,
-  SuccessMessage,
-  Input,
-  ErrorMessage,
-  Button,
-  ButtonText,
-  SignInLink,
-  SignInLinkText,
-} from './styles';
+import styles from './styles';
 
 export default class SignUp extends Component {
   static navigationOptions = {
@@ -31,13 +28,16 @@ export default class SignUp extends Component {
     }).isRequired,
   };
 
-  state = {
-    username: 'csorlandi',
-    email: 'cso.junior1996@gmail.com',
-    password: '123456',
-    error: '',
-    success: '',
-  };
+  constructor() {
+    super();
+    this.state = {
+      username: '',
+      email: '',
+      password: '',
+      error: '',
+      success: '',
+    };
+  }
 
   handleUsernameChange = username => {
     this.setState({username});
@@ -56,7 +56,9 @@ export default class SignUp extends Component {
   };
 
   handleSignUpPress = async () => {
-    if (this.state.email.length === 0 || this.state.password.length === 0) {
+    const {username, email, password} = this.state;
+
+    if (email.length === 0 || password.length === 0 || username.length === 0) {
       this.setState(
         {error: 'Preencha todos os campos para continuar!'},
         () => false,
@@ -64,9 +66,9 @@ export default class SignUp extends Component {
     } else {
       try {
         await api.post('/users', {
-          username: this.state.username,
-          email: this.state.email,
-          password: this.state.password,
+          username: username,
+          email: email,
+          password: password,
         });
 
         this.setState({
@@ -94,30 +96,34 @@ export default class SignUp extends Component {
 
   render() {
     return (
-      <Container>
+      <View style={styles.container}>
         <StatusBar hidden />
-        <Logo
+        <Image
+          style={styles.logo}
           source={require('../../images/to-do-icon.png')}
           resizeMode="contain"
         />
         {this.state.success.length !== 0 && (
-          <SuccessMessage>{this.state.success}</SuccessMessage>
+          <Text style={styles.successMessage}>{this.state.success}</Text>
         )}
-        <Input
+        <TextInput
+          style={styles.input}
           placeholder="Nome de usuário"
           value={this.state.username}
           onChangeText={this.handleUsernameChange}
           autoCapitalize="none"
           autoCorrect={false}
         />
-        <Input
+        <TextInput
+          style={styles.input}
           placeholder="Endereço de e-mail"
           value={this.state.email}
           onChangeText={this.handleEmailChange}
           autoCapitalize="none"
           autoCorrect={false}
         />
-        <Input
+        <TextInput
+          style={styles.input}
           placeholder="Senha"
           value={this.state.password}
           onChangeText={this.handlePasswordChange}
@@ -126,15 +132,19 @@ export default class SignUp extends Component {
           secureTextEntry
         />
         {this.state.error.length !== 0 && (
-          <ErrorMessage>{this.state.error}</ErrorMessage>
+          <Text style={styles.errorMessage}>{this.state.error}</Text>
         )}
-        <Button onPress={this.handleSignUpPress}>
-          <ButtonText>Criar conta</ButtonText>
-        </Button>
-        <SignInLink onPress={this.handleBackToLoginPress}>
-          <SignInLinkText>Voltar ao login</SignInLinkText>
-        </SignInLink>
-      </Container>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={this.handleSignUpPress}>
+          <Text style={styles.buttonText}>Criar conta</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.signInLink}
+          onPress={this.handleBackToLoginPress}>
+          <Text style={styles.signInLinkText}>Voltar ao login</Text>
+        </TouchableHighlight>
+      </View>
     );
   }
 }

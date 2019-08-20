@@ -1,11 +1,13 @@
 import {StyleSheet} from 'react-native';
 
+import {colors} from '../../../styles';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.white,
   },
   tasksContainer: {
     width: '100%',
@@ -31,9 +33,11 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: colors.primary,
   },
   itemDescription: {
     fontSize: 14,
+    color: colors.gray,
   },
   actionsContainer: {
     flexDirection: 'row',
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     borderRadius: 5,
-    backgroundColor: '#fff',
+    backgroundColor: colors.background,
     alignSelf: 'stretch',
     marginBottom: 10,
     marginHorizontal: 20,
@@ -68,7 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    backgroundColor: '#ccc',
+    backgroundColor: colors.background,
   },
 });
 

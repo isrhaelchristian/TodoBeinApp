@@ -1,21 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {StatusBar, AsyncStorage} from 'react-native';
+import {StatusBar, AsyncStorage, View, TouchableHighlight, Text, TextInput, Image} from 'react-native';
 import {StackActions, NavigationActions} from 'react-navigation';
 
 import api from '../../services/api';
 
-import {
-  Container,
-  Logo,
-  Input,
-  ErrorMessage,
-  Button,
-  ButtonText,
-  SignUpLink,
-  SignUpLinkText,
-} from './styles';
+import styles from './styles';
 
 export default class SignIn extends Component {
   static navigationOptions = {
@@ -51,7 +42,9 @@ export default class SignIn extends Component {
   };
 
   handleSignInPress = async () => {
-    if (this.state.email.length === 0 || this.state.password.length === 0) {
+    const {email, password} = this.state;
+
+    if (email === 0 || password === 0) {
       this.setState(
         {error: 'Preencha usuário e senha para continuar!'},
         () => false,
@@ -59,11 +52,9 @@ export default class SignIn extends Component {
     } else {
       try {
         const response = await api.post('/sessions', {
-          email: this.state.email,
-          password: this.state.password,
+          email,
+          password,
         });
-
-        console.log(response.data);
 
         await AsyncStorage.setItem('@TodoBeinApp:token', response.data.token);
 
@@ -72,8 +63,7 @@ export default class SignIn extends Component {
           actions: [NavigationActions.navigate({routeName: 'Main'})],
         });
         this.props.navigation.dispatch(resetAction);
-      } catch (_err) {
-        console.log(_err);
+      } catch (error) {
         this.setState({
           error: 'Houve um problema com o login, verifique suas credenciais!',
         });
@@ -83,20 +73,20 @@ export default class SignIn extends Component {
 
   render() {
     return (
-      <Container>
+      <View style={styles.container}>
         <StatusBar hidden />
-        <Logo
+        <Image style={styles.logo}
           source={require('../../images/to-do-icon.png')}
           resizeMode="contain"
         />
-        <Input
+        <TextInput style={styles.input}
           placeholder="Endereço de e-mail"
           value={this.state.email}
           onChangeText={this.handleEmailChange}
           autoCapitalize="none"
           autoCorrect={false}
         />
-        <Input
+        <TextInput style={styles.input}
           placeholder="Senha"
           value={this.state.password}
           onChangeText={this.handlePasswordChange}
@@ -105,15 +95,15 @@ export default class SignIn extends Component {
           secureTextEntry
         />
         {this.state.error.length !== 0 && (
-          <ErrorMessage>{this.state.error}</ErrorMessage>
+          <Text style={styles.errorMessage}>{this.state.error}</Text>
         )}
-        <Button onPress={this.handleSignInPress}>
-          <ButtonText>Entrar</ButtonText>
-        </Button>
-        <SignUpLink onPress={this.handleCreateAccountPress}>
-          <SignUpLinkText>Criar conta grátis</SignUpLinkText>
-        </SignUpLink>
-      </Container>
+        <TouchableHighlight style={styles.button} onPress={this.handleSignInPress}>
+          <Text style={styles.buttonText}>Entrar</Text>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.signUpLink} onPress={this.handleCreateAccountPress}>
+          <Text style={styles.signUpLinkText}>Criar conta grátis</Text>
+        </TouchableHighlight>
+      </View>
     );
   }
 }

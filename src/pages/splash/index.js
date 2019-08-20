@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, AsyncStorage} from 'react-native';
+import {Text, View, AsyncStorage, ActivityIndicator} from 'react-native';
 import {StackActions, NavigationActions} from 'react-navigation';
 
 export default class Splash extends Component {
@@ -22,8 +22,8 @@ export default class Splash extends Component {
 
   render() {
     return (
-      <View>
-        <Text> loading... </Text>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" />
       </View>
     );
   }

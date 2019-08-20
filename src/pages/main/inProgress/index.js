@@ -2,32 +2,42 @@ import React, {Component} from 'react';
 import {Text, View, FlatList, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import TasksActions from '../../../store/ducks/tasks';
+
 import styles from './styles';
 
-export default class InProgress extends Component {
+class InProgress extends Component {
+  componentDidMount() {
+    const {loadRequest} = this.props;
+    loadRequest();
+  }
+
+  finishTask = async task => {
+    const {updateTask} = this.props;
+    try {
+      updateTask(task, 'done');
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  reopenTask = async task => {
+    const {updateTask} = this.props;
+    try {
+      updateTask(task, 'todo');
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <FlatList
           style={styles.listContainer}
-          data={[
-            {
-              title: 'Task 1',
-              description: 'Description Task 1',
-            },
-            {
-              title: 'Task 2',
-              description: 'Description Task 2',
-            },
-            {
-              title: 'Task 3',
-              description: 'Description Task 3',
-            },
-            {
-              title: 'Task 4',
-              description: 'Description Task 4',
-            },
-          ]}
+          data={this.props.tasks}
           keyExtractor={(item, index) => item.title}
           renderItem={({item}) => (
             <View style={styles.listItem}>
@@ -36,10 +46,14 @@ export default class InProgress extends Component {
                 <Text style={styles.itemDescription}>{item.description}</Text>
               </View>
               <View style={styles.actionsContainer}>
-                <TouchableOpacity style={styles.iconContainer}>
+                <TouchableOpacity
+                  style={styles.iconContainer}
+                  onPress={() => this.reopenTask(item)}>
                   <Icon name="action-undo" size={25} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.iconContainer}>
+                <TouchableOpacity
+                  style={styles.iconContainer}
+                  onPress={() => this.finishTask(item)}>
                   <Icon name="action-redo" size={25} />
                 </TouchableOpacity>
               </View>
@@ -50,3 +64,15 @@ export default class InProgress extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  tasks: state.tasks.inProgressTasks,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(TasksActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(InProgress);

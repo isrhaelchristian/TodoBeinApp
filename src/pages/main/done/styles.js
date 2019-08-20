@@ -1,11 +1,17 @@
 import {StyleSheet} from 'react-native';
 
+import {colors} from '../../../styles';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.white,
+  },
+  tasksContainer: {
+    width: '100%',
+    height: '70%',
   },
   listContainer: {
     width: '100%',
@@ -27,9 +33,11 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: colors.primary
   },
   itemDescription: {
     fontSize: 14,
+    color: colors.gray
   },
   actionsContainer: {
     flexDirection: 'row',

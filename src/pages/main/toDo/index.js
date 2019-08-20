@@ -2,54 +2,59 @@ import React, {Component} from 'react';
 import {Text, View, FlatList, TouchableOpacity, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
-import api from '../../../services/api';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import TasksActions from '../../../store/ducks/tasks';
 
 import styles from './styles';
 
-export default class ToDo extends Component {
+class ToDo extends Component {
   constructor() {
     super();
     this.state = {
       title: '',
       description: '',
-      tasks: [],
     };
   }
 
   componentDidMount() {
-    this.makeResquest();
+    const {loadRequest} = this.props;
+    loadRequest();
   }
 
-  makeResquest = async () => {
+  handleSubmit = async () => {
+    const {title, description} = this.state;
+    const {createTask} = this.props;
+    if (title.length === 0 || description.length === 0) {
+      alert('Please fill in all fields');
+    } else {
+      try {
+        createTask(title, description);
+        this.setState({
+          title: '',
+          description: '',
+        });
+      } catch (error) {
+        alert(error);
+      }
+    }
+  };
+
+  startTask = async task => {
+    const {updateTask} = this.props;
     try {
-      const response = await api.get('/todos');
-      const todoTasks = response.data.filter(task => task.state === 'todo');
-      console.log(todoTasks);
-      this.setState({tasks: todoTasks});
+      updateTask(task, 'inprogress');
     } catch (error) {
       alert(error);
     }
   };
 
-  handleSubmit = async () => {
-    const {title, description} = this.state;
-    if (title.length === 0 || description.length === 0) {
-      alert('Please fill in all fields');
-    } else {
-      try {
-        const response = await api.post('/todos', {
-          title,
-          description,
-          state: 'todo',
-        });
-        this.setState({
-          title: '',
-          description: '',
-        });
-        this.makeResquest();
-      } catch (error) {
-        alert(error);
-      }
+  handleDelete = async task => {
+    const {deleteTask} = this.props;
+    try {
+      deleteTask(task.id);
+    } catch (error) {
+      alert(error);
     }
   };
 
@@ -67,8 +72,8 @@ export default class ToDo extends Component {
         <View style={styles.tasksContainer}>
           <FlatList
             style={styles.listContainer}
-            data={this.state.tasks}
-            keyExtractor={(item, index) => item.title}
+            data={this.props.tasks}
+            keyExtractor={(item, index) => item.id + item.title}
             renderItem={({item}) => (
               <View style={styles.listItem}>
                 <View style={styles.infoContainer}>
@@ -76,10 +81,14 @@ export default class ToDo extends Component {
                   <Text style={styles.itemDescription}>{item.description}</Text>
                 </View>
                 <View style={styles.actionsContainer}>
-                  <TouchableOpacity style={styles.iconContainer}>
+                  <TouchableOpacity
+                    style={styles.iconContainer}
+                    onPress={() => this.startTask(item)}>
                     <Icon name="action-redo" size={25} />
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.iconContainer}>
+                  <TouchableOpacity
+                    style={styles.iconContainer}
+                    onPress={() => this.handleDelete(item)}>
                     <Icon name="trash" size={25} />
                   </TouchableOpacity>
                 </View>
@@ -114,3 +123,15 @@ export default class ToDo extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  tasks: state.tasks.todoTasks,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(TasksActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ToDo);

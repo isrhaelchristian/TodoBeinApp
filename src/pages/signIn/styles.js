@@ -1,71 +1,59 @@
-import styled from 'styled-components';
+import {StyleSheet} from 'react-native';
 
-const Container = styled.View`
-  flex: 1;
-  alignItems: center;
-  justifyContent: center;
-  backgroundColor: #f5f5f5;
-`;
+import {colors} from '../../styles';
 
-const Logo = styled.Image`
-  height: 30%;
-  marginBottom: 40px;
-`;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.background,
+  },
+  logo: {
+    height: '25%',
+    marginBottom: 40,
+  },
+  input: {
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderRadius: 5,
+    backgroundColor: colors.white,
+    alignSelf: 'stretch',
+    marginBottom: 15,
+    marginHorizontal: 20,
+    fontSize: 16,
+  },
+  errorMessage: {
+    textAlign: 'center',
+    color: colors.error,
+    fontSize: 16,
+    marginBottom: 15,
+    marginHorizontal: 20,
+  },
+  button: {
+    padding: 20,
+    borderRadius: 5,
+    backgroundColor: colors.primary,
+    alignSelf: 'stretch',
+    margin: 15,
+    marginHorizontal: 20,
+  },
+  buttonText: {
+    color: colors.white,
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  signUpLink: {
+    padding: 10,
+    marginTop: 20,
+  },
+  signUpLinkText: {
+    color: colors.gray,
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+});
 
-const Input = styled.TextInput`
-  paddingHorizontal: 20px;
-  paddingVertical: 15px;
-  borderRadius: 5px;
-  backgroundColor: #fff;
-  alignSelf: stretch;
-  marginBottom: 15px;
-  marginHorizontal: 20px;
-  fontSize: 16px;
-`;
-
-const ErrorMessage = styled.Text`
-  textAlign: center;
-  color: #ce2029;
-  fontSize: 16px;
-  marginBottom: 15px;
-  marginHorizontal: 20px;
-`;
-
-const Button = styled.TouchableHighlight`
-  padding: 20px;
-  borderRadius: 5px;
-  backgroundColor: #fc6663;
-  alignSelf: stretch;
-  margin: 15px;
-  marginHorizontal: 20px;
-`;
-
-const ButtonText = styled.Text`
-  color: #fff;
-  fontWeight: bold;
-  fontSize: 16px;
-  textAlign: center;
-`;
-
-const SignUpLink = styled.TouchableHighlight`
-  padding: 10px;
-  marginTop: 20px;
-`;
-
-const SignUpLinkText = styled.Text`
-  color: #999;
-  fontWeight: bold;
-  fontSize: 16px;
-  textAlign: center;
-`;
-
-export {
-  Container,
-  Logo,
-  Input,
-  ErrorMessage,
-  Button,
-  ButtonText,
-  SignUpLink,
-  SignUpLinkText,
-};
+export default styles;
