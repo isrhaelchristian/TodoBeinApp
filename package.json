@@ -33,7 +33,7 @@
     "jest": "^24.9.0",
     "jetifier": "^1.6.4",
     "metro-react-native-babel-preset": "^0.56.0",
-    "npm": "^6.10.3",
+    "npm": "^6.13.4",
     "ou": "^0.0.2",
     "react-test-renderer": "16.8.6"
   },
